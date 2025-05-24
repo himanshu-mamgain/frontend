@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "imageUrl": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+    "title": "Empire State Building",
+    "description": "One of the most famous sky scrapers in the world!",
+    "address": "20 W 34th St, New York, NY 10001, United States",
+    "creator": 1,
+    "location": {
+      "lat": 40.7484474,
+      "lng": -73.9871516
+    }
+  },
+  {
+    "id": 2,
+    "imageUrl": "https://images.unsplash.com/photo-1542345812-d98b5cd6cf98",
+    "title": "Eiffel Tower",
+    "description": "An iconic Parisian landmark and a must-see attraction.",
+    "address": "Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France",
+    "creator": 2,
+    "location": {
+      "lat": 48.8583701,
+      "lng": 2.2922926
+    }
+  }
+]

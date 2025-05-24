@@ -1,0 +1,11 @@
+.map {
+  margin: 0;
+  width: 100%;
+  height: 62%;
+}
+
+#map {
+  position: absolute;
+  top: 2;
+  bottom: 1;
+}
