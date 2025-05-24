@@ -1,7 +1,63 @@
 import { useCallback, useReducer } from "react";
+import type { InitialInputs } from "./hooks.type";
 
-export const 
+const formReducer = (
+  state: {
+    isValid: boolean;
+    inputs: { [x: string]: { value: string | undefined; isValid: boolean } };
+  },
+  action: {
+    type: "INPUT_CHANGE";
+    value: string | undefined;
+    inputId: string;
+    isValid: boolean;
+  }
+) => {
+  switch (action.type) {
+    case "INPUT_CHANGE":
+      let formIsValid = true;
 
-export const useForm = () => {
+      for (const inputId in state.inputs) {
+        if (inputId === action.inputId) {
+          formIsValid = formIsValid && action.isValid;
+        } else {
+          formIsValid = formIsValid && state.inputs[inputId].isValid;
+        }
+      }
+      return {
+        ...state,
+        inputs: {
+          ...state.inputs,
+          [action.inputId]: { value: action.value, isValid: action.isValid },
+        },
+        isValid: formIsValid,
+      };
+    default:
+      return state;
+  }
+};
 
-}
+export const useForm = (
+  initialInputs: InitialInputs,
+  initialFormValidity: boolean
+): [
+  {
+    inputs: InitialInputs;
+    isValid: boolean;
+  },
+  (id: string, value: string | undefined, isValid: boolean) => void
+] => {
+  const [formState, dispatch] = useReducer(formReducer, {
+    inputs: initialInputs,
+    isValid: initialFormValidity,
+  });
+
+  const inputHandler = useCallback(
+    (id: string, value: string | undefined, isValid: boolean) => {
+      dispatch({ type: "INPUT_CHANGE", value: value, isValid, inputId: id });
+    },
+    []
+  );
+
+  return [formState, inputHandler];
+};
