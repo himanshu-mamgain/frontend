@@ -12,7 +12,7 @@ export interface ButtonProps {
   disabled?: boolean;
 }
 
-export type InputTypes = "text" | "number" | "password";
+export type InputTypes = "text" | "email" | "number" | "password";
 export type InputElementTypes = "input" | "textarea";
 
 export interface InputState {
