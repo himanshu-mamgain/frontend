@@ -10,42 +10,70 @@ import Button from "../../shared/components/FormElements/Button";
 import { useForm } from "../../shared/hooks/form-hook";
 
 import "./PlaceForm.css";
+import { useEffect, useState } from "react";
+import Card from "../../shared/components/UIElements/Card";
 
 const UpdatePlace = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const placeId: string | undefined = useParams().placeId;
 
-  const identifiedPlace = DUMMY_PLACES.find((p) => p.id === Number(placeId));
-
-  if (!identifiedPlace) {
-    return (
-      <div className="center">
-        <h2>Could not find place!</h2>
-      </div>
-    );
-  }
-
-  const [formState, inputHandler] = useForm(
+  const [formState, inputHandler, setFormData] = useForm(
     {
       title: {
-        value: identifiedPlace?.title,
+        value: "",
         isValid: true,
       },
       description: {
-        value: identifiedPlace.description,
+        value: "",
         isValid: true,
       },
       address: {
-        value: identifiedPlace.address,
+        value: "",
         isValid: true,
       },
     },
     true
   );
 
+  const identifiedPlace = DUMMY_PLACES.find((p) => p.id === Number(placeId));
+
+  useEffect(() => {
+    if (identifiedPlace) {
+      setFormData(
+        {
+          title: {
+            value: identifiedPlace?.title,
+            isValid: true,
+          },
+          description: {
+            value: identifiedPlace?.description,
+            isValid: true,
+          },
+          address: {
+            value: identifiedPlace?.address,
+            isValid: true,
+          },
+        },
+        true
+      );
+    }
+    setIsLoading(false);
+  }, [setFormData, identifiedPlace]);
+
   const placeUpdateSubmitHandler = (event: React.FormEvent) => {
     event.preventDefault();
     console.log(formState.inputs);
   };
+
+  if (isLoading) {
+    return (
+      <div className="center">
+        <Card>
+          <h2>Could not find place!</h2>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <form className="place-form" onSubmit={placeUpdateSubmitHandler}>

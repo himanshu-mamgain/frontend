@@ -7,10 +7,12 @@ const formReducer = (
     inputs: { [x: string]: { value: string | undefined; isValid: boolean } };
   },
   action: {
-    type: "INPUT_CHANGE";
-    value: string | undefined;
-    inputId: string;
-    isValid: boolean;
+    inputs?: any;
+    formIsValid?: any;
+    type: "INPUT_CHANGE" | "SET_DATA";
+    value?: string | undefined;
+    inputId?: string;
+    isValid?: boolean;
   }
 ) => {
   switch (action.type) {
@@ -19,7 +21,7 @@ const formReducer = (
 
       for (const inputId in state.inputs) {
         if (inputId === action.inputId) {
-          formIsValid = formIsValid && action.isValid;
+          formIsValid = formIsValid && action.isValid!;
         } else {
           formIsValid = formIsValid && state.inputs[inputId].isValid;
         }
@@ -28,9 +30,14 @@ const formReducer = (
         ...state,
         inputs: {
           ...state.inputs,
-          [action.inputId]: { value: action.value, isValid: action.isValid },
+          [action.inputId!]: { value: action.value, isValid: action.isValid },
         },
         isValid: formIsValid,
+      };
+    case "SET_DATA":
+      return {
+        inputs: action.inputs,
+        isValid: action.formIsValid,
       };
     default:
       return state;
@@ -45,7 +52,8 @@ export const useForm = (
     inputs: InitialInputs;
     isValid: boolean;
   },
-  (id: string, value: string | undefined, isValid: boolean) => void
+  (id: string, value: string | undefined, isValid: boolean) => void,
+  setFormData: (inputData: any, formValidity: any) => void
 ] => {
   const [formState, dispatch] = useReducer(formReducer, {
     inputs: initialInputs,
@@ -59,5 +67,13 @@ export const useForm = (
     []
   );
 
-  return [formState, inputHandler];
+  const setFormData = useCallback((inputData: any, formValidity: any) => {
+    dispatch({
+      type: "SET_DATA",
+      inputs: inputData,
+      formIsValid: formValidity,
+    });
+  }, []);
+
+  return [formState, inputHandler, setFormData];
 };
