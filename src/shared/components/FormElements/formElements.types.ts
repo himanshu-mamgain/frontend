@@ -32,8 +32,8 @@ export interface InputProps {
   validators?: InputValidators;
   errorText: string;
   onInput: (id: string, value: string | undefined, isValid: boolean) => void;
-  value?: string | undefined;
-  valid?: boolean;
+  initialValue?: string | undefined;
+  initialValid?: boolean;
 }
 
 export interface InputValidators {}

@@ -42,9 +42,9 @@ const Input = (props: InputProps): ReactNode | Promise<ReactNode> => {
       ]
     >
   ] = useReducer(inputReducer, {
-    value: props.value || "",
+    value: props.initialValue || "",
     isTouched: false,
-    isValid: props.valid || false,
+    isValid: props.initialValid || false,
   });
 
   const { id, onInput } = props;
