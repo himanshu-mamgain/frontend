@@ -7,10 +7,10 @@ import {
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
-
-import "./Auth.css";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../shared/context/auth-context";
+
+import "./Auth.css";
 
 const Auth = () => {
   const auth = useContext(AuthContext);
@@ -50,9 +50,36 @@ const Auth = () => {
     setIsLoginMode((prevMode) => !prevMode);
   };
 
-  const authSubmitHandler = (event: React.FormEvent) => {
+  const authSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(formState.inputs);
+
+    debugger;
+
+    if (isLoginMode) {
+    } else {
+      try {
+        const response = await fetch(
+          `${import.meta.env.BASE_URL}/users/signup`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: formState.inputs.name.value,
+              email: formState.inputs.email.value,
+              password: formState.inputs.password.value,
+            }),
+          }
+        );
+
+        const responseData = await response.json();
+        console.log(responseData);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     auth.login();
   };
 
