@@ -1,6 +1,5 @@
 import { useRef, useEffect } from "react";
-import type { MapProps } from "./elements.types";
-
+import type { MapProps } from "../../../interface";
 import { Map as olMap } from "ol";
 import OSM from "ol/source/OSM.js";
 import TileLayer from "ol/layer/Tile.js";

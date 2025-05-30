@@ -1,9 +1,5 @@
 import { useEffect, useReducer, type ReactNode } from "react";
-import type {
-  InputProps,
-  InputState,
-  InputValidators,
-} from "./formElements.types";
+import type { InputValidators, InputProps, InputState } from "../../../interface";
 import { validate } from "../../util/validators";
 
 import "./Input.css";

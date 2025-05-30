@@ -1,5 +1,6 @@
+import type { AvatarProps } from "../../../interface";
+
 import "./Avatar.css";
-import type { AvatarProps } from "./elements.types";
 
 const Avatar = (props: AvatarProps) => {
   return (

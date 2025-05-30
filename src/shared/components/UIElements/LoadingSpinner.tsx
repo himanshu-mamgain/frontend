@@ -1,4 +1,5 @@
-import type { ILoadingSpinnerProps } from "./elements.types";
+
+import type { ILoadingSpinnerProps } from "../../../interface";
 import "./LoadingSpinner.css";
 
 const LoadingSpinner = (props: ILoadingSpinnerProps) => {

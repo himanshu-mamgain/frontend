@@ -36,6 +36,12 @@ const UserPlaces = () => {
     fetchPlaces();
   }, [sendRequest]);
 
+  const placeDeleteHandler = (deletedPlaceId: string) => {
+    setLoadedPlaces((prevPlaces) =>
+      prevPlaces?.filter((places) => places._id !== deletedPlaceId)
+    );
+  };
+
   return (
     <React.Fragment>
       <ErrorModal error={error!} onClear={clearError} />
@@ -48,6 +54,7 @@ const UserPlaces = () => {
         <PlaceList
           // items={DUMMY_PLACES.filter((place) => place.creator === Number(userId))}
           items={loadedPlaces!}
+          onDeletePlace={placeDeleteHandler}
         />
       )}
     </React.Fragment>

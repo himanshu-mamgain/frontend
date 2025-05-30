@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
-import type { ToasterProps } from "./elements.types";
 import { CSSTransition } from "react-transition-group";
 
 import "./Toaster.css";
+import type { ToasterProps } from "../../../interface";
 
 const Toaster = (props: ToasterProps) => {
   const nodeRef = useRef(null);

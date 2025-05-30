@@ -1,4 +1,5 @@
-import type { CardProps } from "./elements.types";
+import type { CardProps } from "../../../interface";
+
 import "./Card.css";
 
 const Card = (props: CardProps) => {

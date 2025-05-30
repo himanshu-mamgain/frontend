@@ -7,7 +7,6 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { AuthContext } from "../../shared/context/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { getApiUrl } from "../../shared/util/apiUrl";
-import { useNavigate } from "react-router-dom";
 import type { PlaceItemProps } from "../../interface";
 
 import "./PlaceItem.css";
@@ -18,7 +17,6 @@ const PlaceItem = (props: PlaceItemProps): ReactNode | Promise<ReactNode> => {
   const [showMap, setShowMap] = useState<boolean>(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
-  const navigate = useNavigate();
 
   const openMapHandler = () => setShowMap(true);
 
@@ -32,12 +30,12 @@ const PlaceItem = (props: PlaceItemProps): ReactNode | Promise<ReactNode> => {
     setShowConfirmModal(false);
   };
 
-  const confirmDeleteHandler = () => {
+  const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
     console.log("DELETING...");
 
     try {
-      sendRequest({
+      await sendRequest({
         url: getApiUrl("DELETE_PLACE_BY_ID", props._id),
         method: "DELETE",
         headers: {
@@ -45,7 +43,7 @@ const PlaceItem = (props: PlaceItemProps): ReactNode | Promise<ReactNode> => {
         },
       });
 
-      navigate(`/${auth.userId}/places`);
+      props.onDelete(props._id);
     } catch (error: any) {
       console.error(error);
     }
@@ -89,7 +87,7 @@ const PlaceItem = (props: PlaceItemProps): ReactNode | Promise<ReactNode> => {
       </Modal>
       <li className="place-item">
         <Card className="place-item__content">
-          {isLoading && <LoadingSpinner />}
+          {isLoading && <LoadingSpinner asOverlay />}
           <div className="place-item__image">
             <img src={props.image} alt={props.title} />
           </div>
