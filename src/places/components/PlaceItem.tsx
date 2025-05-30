@@ -45,7 +45,7 @@ const PlaceItem = (props: PlaceItemProps): ReactNode | Promise<ReactNode> => {
         },
       });
 
-      navigate(`${auth.userId}/places`);
+      navigate(`/${auth.userId}/places`);
     } catch (error: any) {
       console.error(error);
     }
