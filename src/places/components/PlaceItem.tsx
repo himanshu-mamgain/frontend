@@ -1,17 +1,25 @@
 import React, { useState, useContext, type ReactNode } from "react";
-import type { PlaceItemProps } from "../types/place.types";
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
 import Map from "../../shared/components/UIElements/Map";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { AuthContext } from "../../shared/context/auth-context";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import { getApiUrl } from "../../shared/util/apiUrl";
+import { useNavigate } from "react-router-dom";
+import type { PlaceItemProps } from "../../interface";
 
 import "./PlaceItem.css";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 
 const PlaceItem = (props: PlaceItemProps): ReactNode | Promise<ReactNode> => {
   const auth = useContext(AuthContext);
   const [showMap, setShowMap] = useState<boolean>(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const navigate = useNavigate();
+
   const openMapHandler = () => setShowMap(true);
 
   const closeMapHandler = () => setShowMap(false);
@@ -27,10 +35,25 @@ const PlaceItem = (props: PlaceItemProps): ReactNode | Promise<ReactNode> => {
   const confirmDeleteHandler = () => {
     setShowConfirmModal(false);
     console.log("DELETING...");
+
+    try {
+      sendRequest({
+        url: getApiUrl("DELETE_PLACE_BY_ID", props._id),
+        method: "DELETE",
+        headers: {
+          authorization: `Bearer ${auth.token}`,
+        },
+      });
+
+      navigate(`${auth.userId}/places`);
+    } catch (error: any) {
+      console.error(error);
+    }
   };
 
   return (
     <React.Fragment>
+      <ErrorModal error={error!} onClear={clearError} />
       <Modal
         show={showMap}
         onCancel={closeMapHandler}
@@ -66,6 +89,7 @@ const PlaceItem = (props: PlaceItemProps): ReactNode | Promise<ReactNode> => {
       </Modal>
       <li className="place-item">
         <Card className="place-item__content">
+          {isLoading && <LoadingSpinner />}
           <div className="place-item__image">
             <img src={props.image} alt={props.title} />
           </div>
@@ -80,7 +104,7 @@ const PlaceItem = (props: PlaceItemProps): ReactNode | Promise<ReactNode> => {
             </Button>
             {auth.isLoggedIn && (
               <>
-                <Button to={`/places/${props.id}`}>EDIT</Button>
+                <Button to={`/places/${props._id}`}>EDIT</Button>
                 <Button danger onClick={showDeleteWarningHandler}>
                   DELETE
                 </Button>

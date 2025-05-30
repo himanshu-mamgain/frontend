@@ -21,7 +21,7 @@ const UserPlaces = () => {
     const fetchPlaces = async () => {
       try {
         const response = await sendRequest({
-          url: getApiUrl(`GET_USER_PLACES`, `${userId}`),
+          url: getApiUrl("GET_PLACES_BY_USER_ID", userId),
           method: "GET",
           headers: {
             authorization: `Bearer ${auth.token}`,

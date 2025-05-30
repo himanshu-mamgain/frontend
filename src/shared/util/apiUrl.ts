@@ -3,7 +3,10 @@ const API_URL = {
   LOGIN: "users/login",
   SIGNUP: "users/signup",
   ADD_PLACE: "places",
-  GET_USER_PLACES: `places/user`,
+  GET_PLACES_BY_USER_ID: "places/user",
+  GET_PLACE_BY_ID: "places",
+  UPDATE_PLACE_BY_ID: "places",
+  DELETE_PLACE_BY_ID: "places"
 } as const;
 
 type ApiEndpoint = keyof typeof API_URL;

@@ -1,7 +1,7 @@
 import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card";
-import type { Places } from "../types/place.types";
 import PlaceItem from "./PlaceItem";
+import type { Places } from "../../interface";
 
 import "./PlaceList.css";
 
@@ -21,8 +21,8 @@ const PlaceList = (props: { items: Places[] }) => {
     <ul className="place-list">
       {props.items.map((place) => (
         <PlaceItem
-          key={place.id}
-          id={place.id}
+          key={place._id}
+          _id={place._id}
           image={place.imageUrl}
           title={place.title}
           description={place.description}
