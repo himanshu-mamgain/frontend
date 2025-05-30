@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
+import type { ButtonProps } from "../../../interface";
 
 import "./Button.css";
-import type { ButtonProps } from "./formElements.types";
 
 const Button = (props: ButtonProps) => {
   if (props.href) {

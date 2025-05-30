@@ -1,9 +1,9 @@
+import { useRef } from "react";
 import ReactDOM from "react-dom";
-import type { SideDrawerProps } from "./navigation.types";
+import type { SideDrawerProps } from "../../../interface";
 import { CSSTransition } from "react-transition-group";
 
 import "./SideDrawer.css";
-import { useRef } from "react";
 
 const SideDrawer = (props: SideDrawerProps) => {
   const nodeRef = useRef(null);

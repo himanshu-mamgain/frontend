@@ -6,14 +6,14 @@ export interface IAuthContext {
   logout: () => void;
 }
 
-export interface Users {
+export interface IUsers {
   _id: string;
   image: string;
   name: string;
   places: number;
 }
 
-export type UserItemProps = Omit<Users, "places"> & { placeCount: number };
+export type UserItemProps = Omit<IUsers, "places"> & { placeCount: number };
 
 export interface Places {
   _id: string;
@@ -164,4 +164,16 @@ export interface ModalOverlayProps {
 export interface ModalProps extends ModalOverlayProps {
   show: boolean;
   onCancel: () => void;
+}
+
+export interface MainHeaderProps {
+  children: React.ReactNode;
+}
+
+export interface MainNavigationProps {}
+
+export interface SideDrawerProps {
+  children: React.ReactElement;
+  show: boolean;
+  onClick: () => void;
 }

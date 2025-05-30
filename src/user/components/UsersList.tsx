@@ -1,9 +1,9 @@
-import type { Users } from "../../interface";
+import type { IUsers } from "../../interface";
 import UsersItem from "./UsersItem";
 
 import "./UsersList.css";
 
-const UsersList = (props: { items: Users[] }) => {
+const UsersList = (props: { items: IUsers[] }) => {
   if (props.items.length === 0) {
     return (
       <div className="center">
