@@ -1,6 +1,12 @@
-export interface IResponse<T = object> {
+export interface IResponse {
   success: boolean;
   statusCode: number;
   message: string;
-  payload: T;
+  payload: any;
+}
+
+export interface ISendRequest {
+  url: string;
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  headers?: Record<string, string>;
 }

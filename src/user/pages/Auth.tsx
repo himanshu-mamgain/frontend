@@ -1,25 +1,24 @@
+import React, { useContext, useState } from "react";
 import Button from "../../shared/components/FormElements/Button";
 import Input from "../../shared/components/FormElements/Input";
 import Card from "../../shared/components/UIElements/Card";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
-import React, { useContext, useState } from "react";
 import { AuthContext } from "../../shared/context/auth-context";
-import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import type { IResponse } from "../../interface";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 
 import "./Auth.css";
 
 const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -61,75 +60,48 @@ const Auth = () => {
 
     if (isLoginMode) {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/users/login`,
+        await sendRequest(
           {
+            url: `${import.meta.env.VITE_BASE_URL}/users/login`,
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-              email: formState.inputs.email.value,
-              password: formState.inputs.password.value,
-            }),
-          }
+          },
+          JSON.stringify({
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          })
         );
-
-        const responseData: IResponse = await response.json();
-        console.log(responseData);
-
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        } else {
-          setIsLoading(false);
-          auth.login();
-        }
+        auth.login();
       } catch (error: any) {
         console.error(error);
-        setError(error.message || "Something went wrong, please try again.");
       }
     } else {
       try {
-        setIsLoading(true);
-        const response = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/users/signup`,
+        await sendRequest(
           {
+            url: `${import.meta.env.VITE_BASE_URL}/users/signup`,
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-              name: formState.inputs.name.value,
-              email: formState.inputs.email.value,
-              password: formState.inputs.password.value,
-            }),
-          }
+          },
+          JSON.stringify({
+            name: formState.inputs.name.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          })
         );
-
-        const responseData: IResponse = await response.json();
-        console.log(responseData);
-
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        } else {
-          setIsLoading(false);
-          auth.login();
-        }
       } catch (error: any) {
         console.error(error);
-        setError(error.message || "Something went wrong, please try again.");
       }
     }
-    setIsLoading(false);
-  };
-
-  const errorHandler = () => {
-    setError(null);
   };
 
   return (
     <React.Fragment>
-      <ErrorModal error={error!} onClear={errorHandler} />
+      <ErrorModal error={error!} onClear={clearError} />
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>{isLoginMode ? "Login" : "Signup"} Required</h2>
