@@ -30,3 +30,19 @@ interface center {
   lng: number;
   lat: number;
 }
+
+export interface ToasterProps {
+  show: boolean;
+  message: string;
+  type: "success" | "error";
+  onCancel: () => void;
+}
+
+export interface IErrorModalProps {
+  onClear: () => void;
+  error: string;
+}
+
+export interface ILoadingSpinnerProps {
+  asOverlay: boolean;
+}

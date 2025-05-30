@@ -1,0 +1,47 @@
+.toaster {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  min-width: 250px;
+  max-width: 350px;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.95rem;
+  z-index: 200;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Success Style */
+.toaster.success {
+  background-color: #28a745; /* green */
+}
+
+/* Error Style */
+.toaster.error {
+  background-color: #FE5D26; /* red */
+}
+
+/* Animation Classes for CSSTransition */
+.toaster-enter {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.toaster-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toaster-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toaster-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+}
