@@ -1,10 +1,10 @@
 import ReactDOM from "react-dom";
-import type { ModalOverlayProps, ModalProps } from "../FormElements/formElements.types";
 import React, { useRef } from "react";
 import Backdrop from "./Backdrop";
 import { CSSTransition } from "react-transition-group";
 
 import "./Modal.css";
+import type { ModalOverlayProps, ModalProps } from "../../../interface";
 
 const ModalOverlay = (props: ModalOverlayProps) => {
   const content = (
