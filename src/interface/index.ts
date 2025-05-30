@@ -21,7 +21,7 @@ export interface Places {
   title: string;
   description: string;
   address: string;
-  creator: number;
+  creator: string;
   location: PlacesLocation;
 }
 
@@ -35,7 +35,7 @@ export type PlaceItemProps = Omit<
   "imageUrl" | "creator" | "location"
 > & {
   image: string;
-  creatorId: number;
+  creatorId: string;
   coordinates: PlacesLocation;
   onDelete: (deletedPlaceId: string) => void;
 };

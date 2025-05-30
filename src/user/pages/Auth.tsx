@@ -15,11 +15,13 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 
 import "./Auth.css";
 import { getApiUrl } from "../../shared/util/apiUrl";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState<boolean>(false);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const navigate = useNavigate();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -94,6 +96,7 @@ const Auth = () => {
             password: formState.inputs.password.value,
           })
         );
+        navigate('/login');
       } catch (error: any) {
         console.error(error);
       }
