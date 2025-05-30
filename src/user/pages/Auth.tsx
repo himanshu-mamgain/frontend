@@ -14,6 +14,7 @@ import { AuthContext } from "../../shared/context/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 
 import "./Auth.css";
+import { getApiUrl } from "../../shared/util/apiUrl";
 
 const Auth = () => {
   const auth = useContext(AuthContext);
@@ -60,9 +61,9 @@ const Auth = () => {
 
     if (isLoginMode) {
       try {
-        await sendRequest(
+        const response = await sendRequest(
           {
-            url: `${import.meta.env.VITE_BASE_URL}/users/login`,
+            url: getApiUrl("LOGIN"),
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -73,7 +74,7 @@ const Auth = () => {
             password: formState.inputs.password.value,
           })
         );
-        auth.login();
+        auth.login(response?.payload?.token, response?.payload?.userId);
       } catch (error: any) {
         console.error(error);
       }
@@ -81,7 +82,7 @@ const Auth = () => {
       try {
         await sendRequest(
           {
-            url: `${import.meta.env.VITE_BASE_URL}/users/signup`,
+            url: getApiUrl("SIGNUP"),
             method: "POST",
             headers: {
               "Content-Type": "application/json",

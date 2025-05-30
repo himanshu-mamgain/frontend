@@ -1,19 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
-import { useForm } from "../../shared/hooks/form-hook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import { AuthContext } from "../../shared/context/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
+import { useForm } from "../../shared/hooks/form-hook";
+import { getApiUrl } from "../../shared/util/apiUrl";
+import { useNavigate } from "react-router-dom";
 
 import "./PlaceForm.css";
 
 const NewPlace = () => {
+  const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const navigate = useNavigate();
 
   const [formState, inputHandler] = useForm(
     {
@@ -39,11 +44,11 @@ const NewPlace = () => {
     try {
       await sendRequest(
         {
-          url: `${import.meta.env.VITE_BASE_URL}/places`,
+          url: getApiUrl("ADD_PLACE"),
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            authorization: `Bearer ${localStorage.getItem("token")}`,
+            authorization: `Bearer ${auth.token}`,
           },
         },
         JSON.stringify({
@@ -52,6 +57,8 @@ const NewPlace = () => {
           address: formState.inputs.address.value,
         })
       );
+      // Redirect the user to a different page
+      navigate("/");
     } catch (error: any) {
       console.error(error);
     }
@@ -60,8 +67,8 @@ const NewPlace = () => {
   return (
     <React.Fragment>
       <ErrorModal error={error!} onClear={clearError} />
-      <div className="center">{isLoading && <LoadingSpinner asOverlay />}</div>
       <form className="place-form" onSubmit={placeSubmitHandler}>
+        {isLoading && <LoadingSpinner asOverlay />}
         <Input
           id="title"
           element="input"

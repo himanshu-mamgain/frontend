@@ -1,5 +1,5 @@
 import { useCallback, useReducer } from "react";
-import type { InitialInputs } from "./hooks.type";
+import type { InitialInputs } from "../../interface";
 
 const formReducer = (
   state: {

@@ -1,12 +1,12 @@
 [
     {
-        "id": 1,
+        "_id": 1,
         "name": "Himanshu",
         "image": "https://st.depositphotos.com/1023102/3424/i/450/depositphotos_34242715-stock-photo-taj-mahal-a-famous-historical.jpg",
         "places": 2
     },
     {
-        "id": 2,
+        "_id": 2,
         "name": "Himanshu",
         "image": "https://t4.ftcdn.net/jpg/00/14/92/13/360_F_14921374_cxnqH33QN7vKSTDyvrNZRCHqyWXiBBWd.jpg",
         "places": 5

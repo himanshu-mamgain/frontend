@@ -1,3 +1,100 @@
+export interface IAuthContext {
+  isLoggedIn: boolean;
+  token: string | null;
+  userId: string | null;
+  login: (token: string, userId: string) => void;
+  logout: () => void;
+}
+
+export interface Users {
+  _id: string;
+  image: string;
+  name: string;
+  places: number;
+}
+
+export type UserItemProps = Omit<Users, "places"> & { placeCount: number };
+
+export interface Places {
+  _id: string;
+  imageUrl: string;
+  title: string;
+  description: string;
+  address: string;
+  creator: number;
+  location: PlacesLocation;
+}
+
+export interface PlacesLocation {
+  lat: number;
+  lng: number;
+}
+
+export type PlaceItemProps = Omit<
+  Places,
+  "imageUrl" | "creator" | "location"
+> & {
+  image: string;
+  creatorId: number;
+  coordinates: PlacesLocation;
+};
+
+export interface InitialInputs {
+  [x: string]: {
+    value: string | undefined;
+    isValid: boolean;
+  };
+}
+
+import type React from "react";
+
+export interface AvatarProps {
+  className?: string;
+  style?: React.CSSProperties;
+  image: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+export interface CardProps {
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+}
+
+export interface BackDropProps {
+  onClick: () => void;
+}
+
+export interface MapProps {
+  className?: string;
+  style?: React.CSSProperties;
+  center: center;
+  zoom: number;
+}
+
+interface center {
+  lng: number;
+  lat: number;
+}
+
+export interface ToasterProps {
+  show: boolean;
+  message: string;
+  type: "success" | "error";
+  onCancel: () => void;
+}
+
+export interface IErrorModalProps {
+  onClear: () => void;
+  error: string;
+}
+
+export interface ILoadingSpinnerProps {
+  asOverlay?: boolean;
+}
+
 export interface IResponse {
   success: boolean;
   statusCode: number;

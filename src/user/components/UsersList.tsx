@@ -1,5 +1,5 @@
+import type { Users } from "../../interface";
 import UsersItem from "./UsersItem";
-import type { Users } from "../types/user.types";
 
 import "./UsersList.css";
 
@@ -16,8 +16,8 @@ const UsersList = (props: { items: Users[] }) => {
     <ul className="users-list">
       {props.items.map((user) => (
         <UsersItem
-          key={user.id}
-          id={user.id}
+          key={user._id}
+          _id={user._id}
           image={user.image}
           name={user.name}
           placeCount={user.places}

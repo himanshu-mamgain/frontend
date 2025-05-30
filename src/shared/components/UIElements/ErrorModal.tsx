@@ -1,6 +1,6 @@
 import Modal from "./Modal";
 import Button from "../FormElements/Button";
-import type { IErrorModalProps } from "./elements.types";
+import type { IErrorModalProps } from "../../../interface";
 
 const ErrorModal = (props: IErrorModalProps) => {
   return (
@@ -10,7 +10,7 @@ const ErrorModal = (props: IErrorModalProps) => {
       show={!!props.error}
       footer={<Button onClick={props.onClear}>Okay</Button>}
     >
-      <p>{props.error}</p>
+      <p>{props.error || "Something went wrong, please try again."}</p>
     </Modal>
   );
 };

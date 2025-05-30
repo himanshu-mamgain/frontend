@@ -1,51 +1,39 @@
 import React, { useEffect, useState } from "react";
 import UsersList from "../components/UsersList";
-// import DUMMY_USERS from "../DUMMY_USERS.json";
-import type { IResponse } from "../../interface";
-import type { Users } from "../types/user.types";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import { getApiUrl } from "../../shared/util/apiUrl";
+import type { Users } from "../../interface";
+// import DUMMY_USERS from "../DUMMY_USERS.json";
 
 const Users = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedUsers, setLoadedUsers] = useState<Users[]>();
 
   useEffect(() => {
-    setIsLoading(true);
-
-    const sendRequest = async () => {
+    const fetchUsers = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users`);
+        const responseData = await sendRequest({
+          url: getApiUrl("GET_ALL_USERS"),
+          method: "GET",
+        });
 
-        const responseData: IResponse = await response.json();
-
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        } else {
-          setIsLoading(false);
-          setLoadedUsers(responseData.payload);
-        }
+        setLoadedUsers(responseData?.payload);
       } catch (error: any) {
-        setIsLoading(false);
-        setError(error.message || "Something went wrong, please try again.");
+        console.error(error);
       }
-      setIsLoading(false);
     };
 
-    sendRequest();
-  }, []);
-
-  const errorHandler = () => {
-    setError(null);
-  };
+    fetchUsers();
+  }, [sendRequest]);
 
   return (
     <React.Fragment>
-      <ErrorModal error={error!} onClear={errorHandler} />
+      <ErrorModal error={error!} onClear={clearError} />
       {isLoading && (
         <div className="center">
-          <LoadingSpinner asOverlay />
+          <LoadingSpinner />
         </div>
       )}
       {!isLoading && loadedUsers && <UsersList items={loadedUsers!} />}

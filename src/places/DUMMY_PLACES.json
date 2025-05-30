@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "_id": 1,
     "imageUrl": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
     "title": "Empire State Building",
     "description": "One of the most famous sky scrapers in the world!",
@@ -12,7 +12,7 @@
     }
   },
   {
-    "id": 2,
+    "_id": 2,
     "imageUrl": "https://images.unsplash.com/photo-1542345812-d98b5cd6cf98",
     "title": "Eiffel Tower",
     "description": "An iconic Parisian landmark and a must-see attraction.",
