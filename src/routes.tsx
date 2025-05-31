@@ -4,7 +4,7 @@ import NewPlace from "./places/pages/NewPlace";
 import UpdatePlace from "./places/pages/UpdatePlace";
 import UserPlaces from "./places/pages/UserPlaces";
 import Auth from "./user/pages/Auth";
-import Users from "./user/pages/users";
+import Users from "./user/pages/Users";
 
 export const getRoutes = (isLoggedIn: boolean): JSX.Element => {
   let routes;
