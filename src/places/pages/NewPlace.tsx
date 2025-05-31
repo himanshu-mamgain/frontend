@@ -100,7 +100,7 @@ const NewPlace = () => {
         <ImageUpload
           id="image"
           onInput={inputHandler}
-          errorText={"Please uplaod a valid image"}
+          errorText={"File must be less than 100KB."}
         />
         <Input
           id="address"

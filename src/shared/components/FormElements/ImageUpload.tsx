@@ -7,7 +7,7 @@ import "./ImageUpload.css";
 const ImageUpload = (props: IImageUploadProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>();
-  const [isValid, setIsValid] = useState<boolean>(false);
+  const [isValid, setIsValid] = useState<boolean>(true);
 
   const filePickRef = useRef<HTMLInputElement>(null);
 
@@ -18,7 +18,6 @@ const ImageUpload = (props: IImageUploadProps) => {
 
     const fileReader = new FileReader();
     fileReader.onload = () => {
-      console.log("fileRead", fileReader);
       setPreviewUrl(fileReader.result?.toString());
     };
     fileReader.readAsDataURL(file);
@@ -30,9 +29,15 @@ const ImageUpload = (props: IImageUploadProps) => {
 
     if (event.target.files && event.target.files.length === 1) {
       pickedFile = event.target.files[0];
-      setFile(pickedFile);
-      setIsValid(true);
-      fileIsValid = true;
+
+      if (pickedFile.size <= 102400) {
+        setFile(pickedFile);
+        setIsValid(true);
+        fileIsValid = true;
+      } else {
+        setIsValid(false);
+        fileIsValid = false;
+      }
     } else {
       setIsValid(false);
       fileIsValid = false;

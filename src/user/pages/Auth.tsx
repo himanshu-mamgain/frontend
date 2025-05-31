@@ -148,7 +148,7 @@ const Auth = () => {
               center
               id="image"
               onInput={inputHandler}
-              errorText="Please upload valid image"
+              errorText="File must be less than 100KB."
             />
           )}
           <Input
