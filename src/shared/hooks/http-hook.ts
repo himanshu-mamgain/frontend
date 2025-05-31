@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, useEffect } from "react";
 import type { IResponse, ISendRequest } from "../../interface";
 
 export const useHttpClient = () => {
@@ -55,11 +55,11 @@ export const useHttpClient = () => {
     setError(null);
   };
 
-  // useEffect(() => {
-  //   return () => {
-  //     activeHttpRequests.current.forEach((abortCtrl) => abortCtrl.abort());
-  //   };
-  // }, []);
+  useEffect(() => {
+    return () => {
+      activeHttpRequests.current.forEach((abortCtrl) => abortCtrl.abort());
+    };
+  }, []);
 
   return { isLoading, error, sendRequest, clearError };
 };
