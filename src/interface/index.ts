@@ -177,3 +177,10 @@ export interface SideDrawerProps {
   show: boolean;
   onClick: () => void;
 }
+
+export interface IImageUploadProps {
+  id: string;
+  onInput: (id: string, pickedFile: any, isValid: boolean) => void;
+  errorText: string;
+  center?: boolean;
+}

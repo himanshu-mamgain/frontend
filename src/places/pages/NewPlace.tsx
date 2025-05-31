@@ -14,6 +14,7 @@ import { getApiUrl } from "../../shared/util/apiUrl";
 import { useNavigate } from "react-router-dom";
 
 import "./PlaceForm.css";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 
 const NewPlace = () => {
   const auth = useContext(AuthContext);
@@ -34,6 +35,10 @@ const NewPlace = () => {
         value: "",
         isValid: false,
       },
+      image: {
+        value: "",
+        isValid: false,
+      },
     },
     false
   );
@@ -42,20 +47,26 @@ const NewPlace = () => {
     event.preventDefault();
 
     try {
+      const formData = new FormData();
+      formData.append("title", formState.inputs.title.value!);
+      formData.append("description", formState.inputs.description.value!);
+      formData.append("address", formState.inputs.address.value!);
+      formData.append("image", formState.inputs.image.value!);
       await sendRequest(
         {
           url: getApiUrl("ADD_PLACE"),
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            // "Content-Type": "application/json",
             authorization: `Bearer ${auth.token}`,
           },
         },
-        JSON.stringify({
-          title: formState.inputs.title.value,
-          description: formState.inputs.description.value,
-          address: formState.inputs.address.value,
-        })
+        // JSON.stringify({
+        //   title: formState.inputs.title.value,
+        //   description: formState.inputs.description.value,
+        //   address: formState.inputs.address.value,
+        // })
+        formData
       );
       // Redirect the user to a different page
       navigate("/");
@@ -85,6 +96,11 @@ const NewPlace = () => {
           validators={[VALIDATOR_MINLENGTH(5)]}
           errorText="Please enter a valid description (at least 5 characters)."
           onInput={inputHandler}
+        />
+        <ImageUpload
+          id="image"
+          onInput={inputHandler}
+          errorText={"Please uplaod a valid image"}
         />
         <Input
           id="address"

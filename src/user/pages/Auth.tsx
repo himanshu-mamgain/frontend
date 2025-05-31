@@ -1,9 +1,11 @@
 import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../../shared/components/FormElements/Button";
 import Input from "../../shared/components/FormElements/Input";
 import Card from "../../shared/components/UIElements/Card";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
@@ -12,10 +14,9 @@ import {
 import { useForm } from "../../shared/hooks/form-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
+import { getApiUrl } from "../../shared/util/apiUrl";
 
 import "./Auth.css";
-import { getApiUrl } from "../../shared/util/apiUrl";
-import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const auth = useContext(AuthContext);
@@ -40,7 +41,7 @@ const Auth = () => {
   const switchModeHandler = () => {
     if (!isLoginMode) {
       setFormData(
-        { ...formState.inputs, name: undefined },
+        { ...formState.inputs, name: undefined, image: undefined },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
     } else {
@@ -49,6 +50,10 @@ const Auth = () => {
           ...formState.inputs,
           name: {
             value: "",
+            isValid: false,
+          },
+          image: {
+            value: null,
             isValid: false,
           },
         },
@@ -60,6 +65,8 @@ const Auth = () => {
 
   const authSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    console.log(formState.inputs);
 
     if (isLoginMode) {
       try {
@@ -82,21 +89,35 @@ const Auth = () => {
       }
     } else {
       try {
+        const formData = new FormData();
+        formData.append("name", formState.inputs.name.value!);
+        formData.append("email", formState.inputs.email.value!);
+        formData.append("password", formState.inputs.password.value!);
+        formData.append("image", formState.inputs.image.value!);
+        // await sendRequest(
+        //   {
+        //     url: getApiUrl("SIGNUP"),
+        //     method: "POST",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //   },
+        //   JSON.stringify({
+        //     name: formState.inputs.name.value,
+        //     email: formState.inputs.email.value,
+        //     password: formState.inputs.password.value,
+        //   })
+        // );
+
         await sendRequest(
           {
             url: getApiUrl("SIGNUP"),
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
           },
-          JSON.stringify({
-            name: formState.inputs.name.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          })
+          formData
         );
-        navigate('/login');
+        navigate("/auth");
+        setIsLoginMode(true);
       } catch (error: any) {
         console.error(error);
       }
@@ -120,6 +141,14 @@ const Auth = () => {
               validators={[VALIDATOR_REQUIRE]}
               errorText="Please enter a name."
               onInput={inputHandler}
+            />
+          )}
+          {!isLoginMode && (
+            <ImageUpload
+              center
+              id="image"
+              onInput={inputHandler}
+              errorText="Please upload valid image"
             />
           )}
           <Input
