@@ -1,6 +1,8 @@
 import { useCallback, useRef, useState, useEffect } from "react";
 import type { IResponse, ISendRequest } from "../../interface";
 
+const { VITE_ENV } = import.meta.env;
+
 export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -55,11 +57,13 @@ export const useHttpClient = () => {
     setError(null);
   };
 
-  useEffect(() => {
-    return () => {
-      activeHttpRequests.current.forEach((abortCtrl) => abortCtrl.abort());
-    };
-  }, []);
+  if (VITE_ENV === "prod") {
+    useEffect(() => {
+      return () => {
+        activeHttpRequests.current.forEach((abortCtrl) => abortCtrl.abort());
+      };
+    }, []);
+  }
 
   return { isLoading, error, sendRequest, clearError };
 };

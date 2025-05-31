@@ -90,7 +90,7 @@ const PlaceItem = (props: PlaceItemProps): ReactNode | Promise<ReactNode> => {
           {isLoading && <LoadingSpinner asOverlay />}
           <div className="place-item__image">
             <img
-              src={`${import.meta.env.VITE_BASE_URL}/${props.image}`}
+              src={props.image}
               alt={props.title}
             />
           </div>

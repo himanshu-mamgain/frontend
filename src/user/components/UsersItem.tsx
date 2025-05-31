@@ -13,7 +13,7 @@ const UsersItem = (props: UserItemProps): ReactNode | Promise<ReactNode> => {
         <Link to={`/${props._id}/places`}>
           <div className="user-item__image">
             <Avatar
-              image={`${import.meta.env.VITE_BASE_URL}/${props.image}`}
+              image={props.image}
               alt={props.name}
             />
           </div>
