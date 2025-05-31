@@ -1,17 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PlaceList from "../components/PlaceList";
 import { useParams } from "react-router-dom";
 import type { Places } from "../../interface";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { getApiUrl } from "../../shared/util/apiUrl";
-import { AuthContext } from "../../shared/context/auth-context";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 // import DUMMY_PLACES from "../DUMMY_PLACES.json";
 
 const UserPlaces = () => {
-  const auth = useContext(AuthContext);
   const userId: string | undefined = useParams().userId;
   const [loadedPlaces, setLoadedPlaces] = useState<Places[]>();
 
@@ -23,9 +21,6 @@ const UserPlaces = () => {
         const response = await sendRequest({
           url: getApiUrl("GET_PLACES_BY_USER_ID", userId),
           method: "GET",
-          headers: {
-            authorization: `Bearer ${auth.token}`,
-          },
         });
 
         setLoadedPlaces(response?.payload);
