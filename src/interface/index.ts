@@ -2,7 +2,7 @@ export interface IAuthContext {
   isLoggedIn: boolean;
   token: string | null;
   userId: string | null;
-  login: (token: string, userId: string, expirationDate: Date) => void;
+  login: (token: string, userId: string, expirationDate?: Date) => void;
   logout: () => void;
 }
 
@@ -16,7 +16,7 @@ export interface IUsers {
   _id: string;
   image: string;
   name: string;
-  places: number;
+  places: string[];
 }
 
 export type UserItemProps = Omit<IUsers, "places"> & { placeCount: number };

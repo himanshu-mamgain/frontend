@@ -2,9 +2,9 @@ import { BrowserRouter as Router, Routes } from "react-router-dom";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import { AuthContext } from "./shared/context/auth-context";
 import { getRoutes } from "./routes";
+import { useAuth } from "./shared/hooks/auth-hook";
 
 import "./App.css";
-import { useAuth } from "./shared/hooks/auth-hook";
 
 function App() {
   const { token, login, logout, userId } = useAuth();

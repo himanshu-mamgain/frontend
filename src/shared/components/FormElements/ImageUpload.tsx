@@ -30,14 +30,9 @@ const ImageUpload = (props: IImageUploadProps) => {
     if (event.target.files && event.target.files.length === 1) {
       pickedFile = event.target.files[0];
 
-      if (pickedFile.size <= 102400) {
-        setFile(pickedFile);
-        setIsValid(true);
-        fileIsValid = true;
-      } else {
-        setIsValid(false);
-        fileIsValid = false;
-      }
+      setFile(pickedFile);
+      setIsValid(true);
+      fileIsValid = true;
     } else {
       setIsValid(false);
       fileIsValid = false;
