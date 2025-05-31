@@ -2,8 +2,14 @@ export interface IAuthContext {
   isLoggedIn: boolean;
   token: string | null;
   userId: string | null;
-  login: (token: string, userId: string) => void;
+  login: (token: string, userId: string, expirationDate: Date) => void;
   logout: () => void;
+}
+
+export interface IStoredData {
+  token: string;
+  userId: string;
+  expiration: string;
 }
 
 export interface IUsers {
